@@ -8,10 +8,11 @@ This library provides Erlang record definitions and encode/decode functions for 
 
 - ✅ Compatible with Erlang/OTP 24+
 - ✅ Generated from official MAVLink XML definitions
-- ✅ Supports MAVLink 2.0 protocol
-- ✅ Includes Common and ArduPilot dialects
+- ✅ Supports MAVLink 2.0 protocol (including 16-bit message IDs)
+- ✅ Full implementation: 308 messages, 959 enum constants
+- ✅ Includes Minimal, Standard, Common, and ArduPilot dialects
 - ✅ Type-safe record definitions
-- ✅ Encode/decode functions for common messages
+- ✅ Complete encode/decode functions for ALL messages
 
 ## Installation
 
@@ -61,22 +62,16 @@ Binary = mavlink_encoder:encode_heartbeat(Heartbeat).
 
 ## Supported Messages
 
-### Common Dialect (232 messages)
+### Full Protocol Implementation
 
-- HEARTBEAT - System heartbeat
-- SYS_STATUS - System status
-- ATTITUDE - Vehicle attitude
-- GPS_RAW_INT - GPS data
-- GLOBAL_POSITION_INT - Global position
-- COMMAND_LONG - Send command
-- ... and 226 more
+This library provides complete encode/decode support for all 308 MAVLink messages:
 
-### ArduPilot Dialect (73 messages)
+- **Minimal Dialect** (1 message): HEARTBEAT
+- **Standard Dialect** (2 messages): GLOBAL_POSITION_INT, AUTOPILOT_VERSION  
+- **Common Dialect** (232 messages): Full MAVLink common message set
+- **ArduPilot Dialect** (73 messages): ArduPilot-specific extensions
 
-- SENSOR_OFFSETS
-- MEMINFO
-- AP_ADC
-- ... and 70 more
+All messages are generated with both encoder and decoder functions, totaling **616 codec functions**.
 
 ## Message IDs
 
@@ -111,14 +106,22 @@ All MAVLink enums are defined as constants:
 ```
 alinkiot-mavlink/
 ├── include/
-│   ├── mavlink_common.hrl        # Common dialect records
-│   └── mavlink_ardupilotmega.hrl # ArduPilot dialect records
+│   ├── mavlink_minimal.hrl         # Minimal dialect records
+│   ├── mavlink_standard.hrl        # Standard dialect records
+│   ├── mavlink_common.hrl          # Common dialect records
+│   └── mavlink_ardupilotmega.hrl   # ArduPilot dialect records
 ├── src/
-│   ├── mavlink.erl               # API and utilities
-│   ├── mavlink_encoder.erl       # Encode messages to binary
-│   ├── mavlink_decoder.erl       # Decode binary to messages
-│   ├── mavlink_app.erl           # Application module
-│   └── mavlink_sup.erl           # Supervisor
+│   ├── mavlink.erl                  # API and utilities
+│   ├── mavlink_minimal_codec.erl    # Minimal dialect encoder/decoder
+│   ├── mavlink_standard_codec.erl   # Standard dialect encoder/decoder
+│   ├── mavlink_common_codec.erl     # Common dialect encoder/decoder
+│   ├── mavlink_ardupilotmega_codec.erl # ArduPilot dialect encoder/decoder
+│   ├── mavlink_encoder.erl          # Legacy encoder (deprecated)
+│   ├── mavlink_decoder.erl          # Legacy decoder (deprecated)
+│   ├── mavlink_app.erl              # Application module
+│   └── mavlink_sup.erl              # Supervisor
+├── test/
+│   └── mavlink_test.erl             # Test module
 └── README.md
 ```
 
