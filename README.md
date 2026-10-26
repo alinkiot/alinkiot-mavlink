@@ -19,7 +19,7 @@ Add to your `rebar.config`:
 
 ```erlang
 {deps, [
-    {mavlink, {git, "https://github.com/your-org/alinkiot-mavlink.git", {tag, "1.0.0"}}}
+    {mavlink, {git, "https://github.com/alinkiot/alinkiot-mavlink.git", {tag, "1.0.0"}}}
 ]}.
 ```
 
