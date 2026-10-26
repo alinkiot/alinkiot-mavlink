@@ -1,0 +1,17 @@
+{application, mavlink,
+ [{description, "MAVLink protocol library for Erlang/OTP 24+"},
+  {vsn, "1.0.0"},
+  {registered, []},
+  {mod, {mavlink_app, []}},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, [
+    mavlink,
+    mavlink_encoder,
+    mavlink_decoder,
+    mavlink_app,
+    mavlink_sup
+  ]}]}.
